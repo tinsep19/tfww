@@ -3,6 +3,8 @@ help: terraform workspace wrapper
 version: 0.1.0
 
 commands:
+- name: completions
+  help: eval "\$(tfww completions)" in .bashrc
 - name: plan
   help: plan tfvars/\$ws.tfvars and out tfplans/\$ws.tfplan
   flags:
