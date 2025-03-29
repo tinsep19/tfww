@@ -1,0 +1,39 @@
+name: tfww
+help: terraform workspace wrapper
+version: 0.1.0
+
+commands:
+- name: plan
+  help: plan tfvars/\$ws.tfvars and out tfplans/\$ws.tfplan
+  flags:
+  - long: --all
+    help: plan all tfvars/*.tfvars
+  - long: --destroy
+    short: -D
+    help: plan destroy
+  args:
+  - name: file
+    validate: tfvars
+    help: tfvars file. use theirs basename as workspace
+- name: apply
+  flags:
+  - long: --all
+    help: apply all tfvars/*.tfvars
+    conflicts: [--plan-all]
+  - long: --plan-all
+    help: apply all tfplans/*.tfplan
+    conflicts: [--all, --destroy]
+  - long: --destroy
+    short: -D
+    conflicts: [--plan-all]
+    help: plan destroy. (tfvars only)
+  args:
+  - name: file
+    validate: tfvars_or_tfplan
+    help: tfvars or tfplan file. use theirs basename as workspace
+- name: switch
+  args:
+  - name: file
+    required: true
+    validate: tfvars_or_tfplan
+    help: tfvars or tfplan file. use theirs basename as workspace

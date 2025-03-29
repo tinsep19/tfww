@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+# Run this from the root directory
+
+cd ./test || exit
+source approvals.bash
+
+workspace_shoud_be () {
+  local expect="$1"
+  local actual="$(terraform workspace show)"
+  [[ "$actual" == "$expect" ]] || fail "expect $expect but $actual"
+}
+
+# Update me
+cli=../tfww
+
+# Tests (context, describe and indentation are optional)
+
+# Clean up.
+rm -rf .terraform terraform.tfstate.d
+rm -f .terraform.lock.hcl
+rm -rf plans envs out
+
+# Setup
+mkdir -p plans
+mkdir -p envs
+echo "input-1 = \"this\"" > envs/test-1.tfvars
+approve "find . -type f | grep -v approvals"
+workspace_shoud_be "default"
+
+describe "root command"
+  approve "$cli --help" "expect_root_help"
+
+context "after initialize"
+  terraform init
+  workspace_shoud_be "default"
+
+  describe "switch command"
+    context "target file is tfvars"
+      approve "$cli switch envs/test-1.tfvars" "expect_switch_test-1"
+      workspace_shoud_be "test-1"
+  
+    context "target file is tfplan"
+      touch plans/test-2.tfplan
+      approve "$cli switch plans/test-2.tfplan" "expect_switch_test-2"
+      workspace_shoud_be "test-2"
+
+    context "target file is not exist"
+      approve "$cli switch envs/nothing.tfvars" "expect_not_exist_msg"
+      workspace_shoud_be "test-2"
+
+    context "mismatch file is specified"
+      touch envs/mismatch.tfplan
+      approve "$cli switch envs/mismatch.tfplan" "expect_mismatch_msg"
+      workspace_shoud_be "test-2"
+      rm envs/mismatch.tfplan
+
+    context "target file is same at switch last"
+      approve "$cli switch plans/test-2.tfplan" "expect_nothing_to_do"
+      workspace_shoud_be "test-2"
+
+  describe "plan command"
+    approve "$cli plan envs/test-1.tfvars" "plan_out_test-1"
+    expect_exit_code 2
+    workspace_shoud_be "test-1"
+
+  describe "apply command"
+    approve "$cli apply plans/test-1.tfplan" "apply_test-1"
+    expect_exit_code 0
+    [[ -f out/test-1/content.txt ]] || fail "Expect success apply"   
+

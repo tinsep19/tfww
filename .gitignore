@@ -1,0 +1,8 @@
+tfww
+test/.terraform.lock.hcl
+test/.terraform/
+test/envs/
+test/out/
+test/plans/
+test/terraform.tfstate.d/
+

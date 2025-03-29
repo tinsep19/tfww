@@ -1,0 +1,18 @@
+tfww - terraform workspace wrapper
+
+Usage:
+  tfww COMMAND
+  tfww [COMMAND] --help | -h
+  tfww --version | -v
+
+Commands:
+  plan     plan tfvars/$ws.tfvars and out tfplans/$ws.tfplan
+  apply    
+  switch   
+
+Options:
+  --help, -h
+    Show this help
+
+  --version, -v
+    Show version number
