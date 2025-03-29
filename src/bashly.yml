@@ -6,24 +6,27 @@ commands:
 - name: completions
   help: eval "\$(tfww completions)" in .bashrc
 - name: plan
-  help: plan tfvars/\$ws.tfvars and out tfplans/\$ws.tfplan
+  help: switch terraform workspace and plan
   flags:
   - long: --all
-    help: plan all tfvars/*.tfvars
+    help: plan all envs/*.tfvars
   - long: --destroy
     short: -D
     help: plan destroy
   args:
   - name: file
     validate: tfvars
-    help: tfvars file. use theirs basename as workspace
+    help: envs/\$workspace.tfvars
+  completions:
+  - $(ls envs/*.tfvars 2>/dev/null)
 - name: apply
+  help: switch terraform workspace and apply
   flags:
   - long: --all
-    help: apply all tfvars/*.tfvars
+    help: apply all envs/*.tfvars
     conflicts: [--plan-all]
   - long: --plan-all
-    help: apply all tfplans/*.tfplan
+    help: apply all plans/*.tfplan
     conflicts: [--all, --destroy]
   - long: --destroy
     short: -D
@@ -32,10 +35,15 @@ commands:
   args:
   - name: file
     validate: tfvars_or_tfplan
-    help: tfvars or tfplan file. use theirs basename as workspace
+    help: envs/\$workspace.tfvars or plans/\$workspace.tfplan
+  completions:
+  - $(ls envs/*.tfvars plans/*.tfplan 2>/dev/null)
 - name: switch
+  help: switch or create terraform workspace
   args:
   - name: file
     required: true
     validate: tfvars_or_tfplan
-    help: tfvars or tfplan file. use theirs basename as workspace
+    help: envs/\$workspace.tfvars or plans/\$workspace.tfplan
+  completions:
+  - $(ls envs/*.tfvars plans/*.tfplan 2>/dev/null)

@@ -7,8 +7,8 @@ all: $(target)
 $(target) : src/bashly.yml $(completion)
 	bashly generate
 
-$(completion) : completions.yml
-	completely generate $< $@ -w send_completions
+$(completion) : src/bashly.yml
+	bashly add completions
 
 .PHONY: clean
 clean:
