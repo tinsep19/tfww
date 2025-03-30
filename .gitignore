@@ -1,5 +1,4 @@
 tfww
-src/lib/send_completions.sh
 test/.terraform.lock.hcl
 test/.terraform/
 test/envs/

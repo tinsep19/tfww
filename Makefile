@@ -1,15 +1,17 @@
-target = $(shell sed -n -r 's/^name:\s*(\w+)/\1/p' src/bashly.yml)
-completion = src/lib/send_completions.sh
+target := tfww 
+
+.PHONY: build
+build: $(target)
+$(target): src/bashly.yml
+	bashly generate --upgrade
 
 .PHONY: all
-all: $(target)
-
-$(target) : src/bashly.yml $(completion)
-	bashly generate
-
-$(completion) : src/bashly.yml
-	bashly add completions
+all: build test
 
 .PHONY: clean
 clean:
-	rm -f $(target) $(completion)
+	rm -f $(target)
+
+.PHONY: test
+test: test/approve
+	CI=1 test/approve
