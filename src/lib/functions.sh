@@ -47,6 +47,9 @@ plan_tfvars () {
   if [[ -n "$2" ]]; then
     plan_opts+=(-destroy)
   fi
+  if [[ -n "$3" ]]; then
+    plan_opts+=(-refresh-only)
+  fi
   terraform plan "${plan_opts[@]}"
 }
 
@@ -66,4 +69,23 @@ apply_tfvars () {
 apply_tfplan () {
   switch_tfvars_or_tfplan "$1"
   terraform apply "$1"
+}
+
+show_current_state () {
+  switch_tfvars_or_tfplan "$1"
+  local -a show_opts=()
+  if [[ -n "$2" ]]; then
+    show_opts+=(-json)
+  fi
+  terraform show "${show_opts[@]}"
+}
+
+show_tfplan () {
+  switch_tfvars_or_tfplan "$1"
+  local -a show_opts=()
+  if [[ -n "$2" ]]; then
+    show_opts+=(-json)
+  fi
+  show_opts+=($1)
+  terraform show "${show_opts[@]}"
 }

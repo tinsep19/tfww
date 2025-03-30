@@ -1,0 +1,22 @@
+tfww plan - switch terraform workspace and plan
+
+Usage:
+  tfww plan [FILE] [OPTIONS]
+  tfww plan --help | -h
+
+Options:
+  --all
+    plan all envs/*.tfvars
+
+  --destroy, -D
+    plan destroy
+
+  --refresh-only, -R
+    plan refresh-only
+
+  --help, -h
+    Show this help
+
+Arguments:
+  FILE
+    envs/$workspace.tfvars

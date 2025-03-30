@@ -1,5 +1,5 @@
-echo "# This file is located at 'src/show_command.sh'."
-echo "# It contains the implementation for the 'tfww show' command."
-echo "# The code you write here will be wrapped by a function named 'tfww_show_command()'."
-echo "# Feel free to edit this file; your changes will persist when regenerating."
-inspect_args
+case "${args[file]}" in
+  envs/*)  show_current_state "${args[file]}" "${args[--json]}" ;;
+  plans/*) show_tfplan "${args[file]}" "${args[--json]}" ;;
+esac
+

@@ -5,6 +5,7 @@ version: 0.1.0
 commands:
 - name: completions
   help: eval "\$(tfww completions)" in .bashrc
+
 - name: plan
   help: switch terraform workspace and plan
   flags:
@@ -13,12 +14,16 @@ commands:
   - long: --destroy
     short: -D
     help: plan destroy
+  - long: --refresh-only
+    short: -R
+    help: plan refresh-only
   args:
   - name: file
     validate: tfvars
     help: envs/\$workspace.tfvars
   completions:
   - $(ls envs/*.tfvars 2>/dev/null)
+
 - name: apply
   help: switch terraform workspace and apply
   flags:
@@ -38,6 +43,7 @@ commands:
     help: envs/\$workspace.tfvars or plans/\$workspace.tfplan
   completions:
   - $(ls envs/*.tfvars plans/*.tfplan 2>/dev/null)
+
 - name: switch
   help: switch or create terraform workspace
   args:
@@ -47,8 +53,13 @@ commands:
     help: envs/\$workspace.tfvars or plans/\$workspace.tfplan
   completions:
   - $(ls envs/*.tfvars plans/*.tfplan 2>/dev/null)
+
 - name: show
   help: swtich terraform workspace and show state or plan
+  flags:
+  - long: --json
+    short: -j
+    help: output the plan or state in json
   args:
   - name: file
     required: true

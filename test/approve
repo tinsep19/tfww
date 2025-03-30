@@ -35,6 +35,8 @@ context "after initialize"
   workspace_shoud_be "default"
 
   describe "switch command"
+    approve "$cli switch --help" "expect_switch_help"
+
     context "target file is tfvars"
       approve "$cli switch envs/test-1.tfvars" "expect_switch_test-1"
       workspace_shoud_be "test-1"
@@ -59,12 +61,26 @@ context "after initialize"
       workspace_shoud_be "test-2"
 
   describe "plan command"
+    approve "$cli plan --help" "expect_plan_help"
+
     approve "$cli plan envs/test-1.tfvars" "plan_out_test-1"
     expect_exit_code 2
     workspace_shoud_be "test-1"
 
+  describe "show command"
+    approve "$cli show --help" "expect_show_help"
+
+    context "target file is tfplan"
+      approve "$cli show plans/test-1.tfplan" "test-1_state_plan"
+
+    context "target file is tfvars"
+      approve "$cli show envs/test-1.tfvars" "test-1_state_before"
+  
   describe "apply command"
-    approve "$cli apply plans/test-1.tfplan" "apply_test-1"
-    expect_exit_code 0
-    [[ -f out/test-1/content.txt ]] || fail "Expect success apply"   
+    approve "$cli apply --help" "expect_apply_help"
+
+    context "target file is tfplan"
+      approve "$cli apply plans/test-1.tfplan" "apply_test-1"
+      expect_exit_code 0
+      [[ -f out/test-1/content.txt ]] || fail "Expect success apply"   
 

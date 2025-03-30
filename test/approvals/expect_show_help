@@ -1,0 +1,16 @@
+tfww show - swtich terraform workspace and show state or plan
+
+Usage:
+  tfww show FILE [OPTIONS]
+  tfww show --help | -h
+
+Options:
+  --json, -j
+    output the plan or state in json
+
+  --help, -h
+    Show this help
+
+Arguments:
+  FILE
+    envs/$workspace.tfvars plans/$workspace.tfplan

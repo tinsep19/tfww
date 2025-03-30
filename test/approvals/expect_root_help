@@ -10,6 +10,7 @@ Commands:
   plan          switch terraform workspace and plan
   apply         switch terraform workspace and apply
   switch        switch or create terraform workspace
+  show          swtich terraform workspace and show state or plan
 
 Options:
   --help, -h

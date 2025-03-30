@@ -1,0 +1,13 @@
+tfww switch - switch or create terraform workspace
+
+Usage:
+  tfww switch FILE
+  tfww switch --help | -h
+
+Options:
+  --help, -h
+    Show this help
+
+Arguments:
+  FILE
+    envs/$workspace.tfvars or plans/$workspace.tfplan

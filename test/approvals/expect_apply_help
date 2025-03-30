@@ -1,0 +1,25 @@
+tfww apply - switch terraform workspace and apply
+
+Usage:
+  tfww apply [FILE] [OPTIONS]
+  tfww apply --help | -h
+
+Options:
+  --all
+    apply all envs/*.tfvars
+    Conflicts: --plan-all
+
+  --plan-all
+    apply all plans/*.tfplan
+    Conflicts: --all, --destroy
+
+  --destroy, -D
+    plan destroy. (tfvars only)
+    Conflicts: --plan-all
+
+  --help, -h
+    Show this help
+
+Arguments:
+  FILE
+    envs/$workspace.tfvars or plans/$workspace.tfplan
