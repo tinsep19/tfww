@@ -6,9 +6,10 @@ Usage:
   tfww --version | -v
 
 Commands:
-  plan     plan tfvars/$ws.tfvars and out tfplans/$ws.tfplan
-  apply    
-  switch   
+  completions   eval "$(tfww completions)" in .bashrc
+  plan          switch terraform workspace and plan
+  apply         switch terraform workspace and apply
+  switch        switch or create terraform workspace
 
 Options:
   --help, -h
