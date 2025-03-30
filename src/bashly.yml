@@ -47,3 +47,12 @@ commands:
     help: envs/\$workspace.tfvars or plans/\$workspace.tfplan
   completions:
   - $(ls envs/*.tfvars plans/*.tfplan 2>/dev/null)
+- name: show
+  help: swtich terraform workspace and show state or plan
+  args:
+  - name: file
+    required: true
+    validate: tfvars_or_tfplan
+    help: envs/\$workspace.tfvars plans/\$workspace.tfplan
+  completions:
+  - $(ls envs/*.tfvars plans/*.tfplan 2>/dev/null)

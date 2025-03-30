@@ -1,17 +1,21 @@
-target := tfww 
+TARGET:=tfww
+TEST:=test/approve
+SRCS=$(shell git ls-files src/* )
 
-.PHONY: build
-build: $(target)
-$(target): src/bashly.yml
+.PHONY : build
+build : $(TARGET)
+
+$(TARGET): $(SRCS)
 	bashly generate --upgrade
 
 .PHONY: all
-all: build test
+all: clean build test
 
 .PHONY: clean
 clean:
-	rm -f $(target)
+	rm -f $(TARGET)
 
 .PHONY: test
-test: test/approve
-	CI=1 test/approve
+test: $(TEST) $(TARGET)
+	CI=1 $(TEST)
+
