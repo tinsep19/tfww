@@ -18,9 +18,9 @@ jobs:
           sudo apt update
           sudo apt install -y make
           sudo apt install -y ruby-full
-          gem install bashly
+          sudo gem install bashly
           git clone --depth=1 https://github.com/tfutils/tfenv.git ~/.tfenv
-          ln -s ~/.tfenv/bin/* /usr/local/bin
+          sudo ln -s ~/.tfenv/bin/* /usr/local/bin
           tfenv install
 
       - name: Build tfww
