@@ -1,0 +1,31 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up environment
+        run: |
+          sudo apt update
+          sudo apt install -y make
+          sudo apt install -y ruby-full
+          sudo gem install bashly
+          git clone --depth=1 https://github.com/tfutils/tfenv.git ~/.tfenv
+          sudo ln -s ~/.tfenv/bin/* /usr/local/bin
+          tfenv install
+
+      - name: Build tfww
+        run: make
+
+      - name: Run tests
+        run: make test

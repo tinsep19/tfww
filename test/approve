@@ -26,7 +26,7 @@ it "Set up"
   mkdir -p plans
   mkdir -p envs
   echo "input-1 = \"this\"" > envs/test-1.tfvars
-  approve "find . -type f | grep -v approvals"
+  approve "find . -type f | grep -v approvals | sort" "test_asset_list_excludes_approvals"
   workspace_shoud_be "default"
 
 describe "root command"

@@ -1,3 +1,3 @@
+./approve
 ./envs/test-1.tfvars
 ./main.tf
-./approve
