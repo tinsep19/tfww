@@ -87,3 +87,11 @@ describe "apply command"
     expect_exit_code 0
     [[ -f out/test-1/content.txt ]] || fail "Expect success apply"   
 
+describe "plan --all with various situations."
+  context "--all continue on exit code was non-zero."
+    echo "input-1 = \"changes\""   > envs/test-1.tfvars
+    echo "input-2 = \"incorrect\"" > envs/test-2.tfvars
+    echo "input-1 = \"test-3\""    > envs/test-3.tfvars
+    it "list results as tfvars file, plan status"
+    approve "$cli plan --all" "plan_all_with_various_situations"
+    
