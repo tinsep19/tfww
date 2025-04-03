@@ -5,12 +5,13 @@ if [[ -n "${args[--all]}" ]]; then
     set +e
     plan_tfvars "$f" "${args[--destroy]}" "${args[--refresh-only]}"
     exit_code="$?"
+    set -e
     case "$exit_code" in
       0) results[$f]="ok" ;;
       1) results[$f]="error" ;;
       2) results[$f]="ok (no changes)" ;;
+      *) results[$f]="unexpected errors"
     esac
-    set -e
   done
   for f in "${!results[@]}" ; do
     echo "$f : ${results[$f]}"
