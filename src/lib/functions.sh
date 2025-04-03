@@ -75,8 +75,14 @@ apply_tfvars () {
 }
 
 apply_tfplan () {
-  switch_tfvars_or_tfplan "$1"
-  terraform apply "$1"
+  local ws="$(basename "$1" ".tfplan")"
+  if [[ -f "envs/$ws.tfvars" ]] ; then
+    switch_tfvars_or_tfplan "envs/$ws.tfvars"
+    terraform apply "$1"
+  else
+    echo "corresponding $ws.tfvars file is missing" >&2
+    return 2
+  fi
 }
 
 show_current_state () {
