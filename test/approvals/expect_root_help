@@ -11,6 +11,7 @@ Commands:
   apply         switch terraform workspace and apply
   switch        switch or create terraform workspace
   show          swtich terraform workspace and show state or plan
+  push          tfstate manually push. for migrate non-workspace to workspace.
 
 Options:
   --help, -h
