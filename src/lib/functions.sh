@@ -16,6 +16,14 @@ validate_tfvars () {
   fi
 }
 
+validate_tfstate () {
+  if [[ "$1" ==  migrates/*.tfstate ]]; then
+    [[ -f "$1" ]] || echo "must be an existing file."
+  else
+    echo "must be migrates/*.tfstate"
+  fi
+}
+
 extract_workspace () {
   if [[ "$1" == plans/*.tfplan ]]; then
     echo "$(basename "$1" ".tfplan")"
@@ -88,4 +96,23 @@ show_tfplan () {
   fi
   show_opts+=($1)
   terraform show "${show_opts[@]}"
+}
+
+push_tfstate() {
+  local ws="$(basename "$1" ".tfstate")"
+  if [[ -f "envs/$ws.tfvars" ]] ; then
+    local -a push_opts=()
+    if [[ -n "$2" ]]; then
+      push_opts+=(-force)
+    fi
+    if [[ -n "$3" ]]; then
+      push_opts+=(-ignore-remote-version)
+    fi
+    push_opts+=($1)
+    switch_tfvars_or_tfplan "envs/$ws.tfvars"
+    terraform state push "${push_opts[@]}"
+  else
+    echo "corresponding $ws.tfvars file is missing." >&2
+    return 2
+  fi
 }

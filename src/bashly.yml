@@ -67,3 +67,19 @@ commands:
     help: envs/\$workspace.tfvars plans/\$workspace.tfplan
   completions:
   - $(ls envs/*.tfvars plans/*.tfplan 2>/dev/null)
+
+- name: push
+  help: tfstate manually push. for migrate non-workspace to workspace.
+  flags:
+  - long: --all
+    help: push all .tfstate files in migrates/*.tfstate
+  - long: --force
+    short: -f
+  - long: --ignore-remote-version
+    short: -r
+  args:
+  - name: file
+    validate: tfstate
+    help: migrates/\${workspace}.tfstate 
+  completions:
+  - $(ls migrates/*.tfstate 2>/dev/null)
