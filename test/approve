@@ -44,24 +44,24 @@ describe "switch command"
     approve "$cli switch envs/test-1.tfvars" "expect_switch_test-1"
     workspace_shoud_be "test-1"
 
-  context "target file is tfplan"
+  context "target file is tfplan, but corresponding tfvars is missing"
     touch plans/test-2.tfplan
-    approve "$cli switch plans/test-2.tfplan" "expect_switch_test-2"
-    workspace_shoud_be "test-2"
+    approve "$cli switch plans/test-2.tfplan" "expect_unmatch_switch_test-2"
+    workspace_shoud_be "test-1"
 
   context "target file is not exist"
     approve "$cli switch envs/nothing.tfvars" "expect_not_exist_msg"
-    workspace_shoud_be "test-2"
+    workspace_shoud_be "test-1"
 
   context "mismatch file is specified"
     touch envs/mismatch.tfplan
     approve "$cli switch envs/mismatch.tfplan" "expect_mismatch_msg"
-    workspace_shoud_be "test-2"
+    workspace_shoud_be "test-1"
     rm envs/mismatch.tfplan
 
   context "target file is same at switch last"
-    approve "$cli switch plans/test-2.tfplan" "expect_nothing_to_do"
-    workspace_shoud_be "test-2"
+    approve "$cli switch envs/test-1.tfvars" "expect_nothing_to_do"
+    workspace_shoud_be "test-1"
 
 describe "plan command"
   approve "$cli plan --help" "expect_plan_help"
