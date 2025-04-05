@@ -1,34 +1,40 @@
-validate_tfvars_or_tfplan () {
-  if [[ "$1" == plans/*.tfplan ]]; then
-    [[ -f "$1" ]] || echo "must be an existing file."
-  elif [[ "$1" ==  envs/*.tfvars ]]; then
-    [[ -f "$1" ]] || echo "must be an existing file."
-  else
-    echo "must be envs/*.tfvars or plans/*.tfplan"
-  fi
+validate_tfvars () {
+  case "$1" in
+    envs/*.tfvars) [[ -f "$1" ]] || echo "must be an existing file." ;;
+    *) echo "must be envs/*.tfvars" ;;
+  esac
 }
 
-validate_tfvars () {
-  if [[ "$1" ==  envs/*.tfvars ]]; then
-    [[ -f "$1" ]] || echo "must be an existing file."
-  else
-    echo "must be envs/*.tfvars"
+validate_tfvars_or_tfplan () {
+  local ws
+  case "$1" in
+    envs/*.tfvars)  ws="$(basename "$1" ".tfvars")" ;;
+    plans/*.tfplan) ws="$(basename "$1" ".tfplan")" ;;
+    *)
+      echo "must be envs/*.tfvars or plans/*.tfplan"
+      return 0
+    ;;
+  esac
+  if [[ ! -f "$1" ]]; then
+    echo "must be an existing file."
+  elif [[ ! -f "envs/$ws.tfvars" ]] ; then
+    echo "corresponding $ws.tfvars file is missing."
   fi
 }
 
 validate_tfstate () {
-  if [[ "$1" ==  migrates/*.tfstate ]]; then
-    [[ -f "$1" ]] || echo "must be an existing file."
-  else
-    echo "must be migrates/*.tfstate"
-  fi
-}
-
-extract_workspace () {
-  if [[ "$1" == plans/*.tfplan ]]; then
-    echo "$(basename "$1" ".tfplan")"
-  elif [[ "$1" == envs/*.tfvars ]]; then
-    echo "$(basename "$1" ".tfvars")"
+  local ws
+  case "$1" in
+    migrates/*.tfstate) ws="$(basename "$1" ".tfstate")" ;;
+    *)
+      echo "must be migrates/*.tfstate"
+      return 0
+    ;;
+  esac
+  if [[ ! -f "$1" ]] ; then
+    echo "must be an existing file."
+  elif [[ ! -f "envs/$ws.tfvars" ]] ; then
+    echo "corresponding $ws.tfvars file is missing."
   fi
 }
 
@@ -36,18 +42,34 @@ switch_or_create_workspace () {
   terraform workspace select "$1" 2>/dev/null || terraform workspace new "$1"
 }
 
-switch_tfvars_or_tfplan () {
-  local ws="$(extract_workspace "$1")"
+switch_on () {
+  local ws
+  case "$1" in
+    envs/*.tfvars)      ws="$(basename "$1" ".tfvars"  )"  ;;
+    plans/*.tfplan)     ws="$(basename "$1" ".tfplan"  )"  ;;
+    migrates/*.tfstate) ws="$(basename "$1" ".tfstate" )" ;;
+    *)
+    echo "unexpected file pattern." >&2
+    return 100
+  esac
+
+  if [[ ! -f "envs/$ws.tfvars" ]] ; then
+    echo "corresponding $ws.tfvars file is missing." >&2
+    return 100
+  fi
   switch_or_create_workspace "$ws"
 }
 
 plan_tfvars () {
-  local ws="$(extract_workspace "$1")"
-  switch_tfvars_or_tfplan "$1"
-  
+  local ws
   local -a plan_opts=()
-  plan_opts+=(-var-file=$1)
-  plan_opts+=(-out=plans/$ws.tfplan)
+
+  ws="$(basename "$1" ".tfvars")"
+
+  switch_on "$1" || return "$?"
+
+  plan_opts+=(-var-file="$1")
+  plan_opts+=(-out="plans/$ws.tfplan")
   plan_opts+=(-compact-warnings)
   plan_opts+=(-detailed-exitcode)
   plan_opts+=(-input=false)
@@ -62,63 +84,45 @@ plan_tfvars () {
 }
 
 apply_tfvars () {
-  switch_tfvars_or_tfplan "$1"
   local -a apply_opts=()
-  apply_opts+=(-var-file=$1)
+  switch_on "$1" || return "$?"
+
+  apply_opts+=(-var-file="$1")
   apply_opts+=(-compact-warnings)
   apply_opts+=(-input=false)
 
-  if [[ -n "$2" ]]; then
-    apply_opts+=(-destroy)
-  fi
+  if [[ -n "$2" ]]; then apply_opts+=(-destroy) ; fi
   terraform apply "${apply_opts[@]}"
 }
 
 apply_tfplan () {
-  local ws="$(basename "$1" ".tfplan")"
-  if [[ -f "envs/$ws.tfvars" ]] ; then
-    switch_tfvars_or_tfplan "envs/$ws.tfvars"
-    terraform apply "$1"
-  else
-    echo "corresponding $ws.tfvars file is missing" >&2
-    return 2
-  fi
+  switch_on "$1" || return "$?"
+  terraform apply "$1"
 }
 
 show_current_state () {
-  switch_tfvars_or_tfplan "$1"
   local -a show_opts=()
-  if [[ -n "$2" ]]; then
-    show_opts+=(-json)
-  fi
+  switch_on "$1" || return "$?"
+  
+  if [[ -n "$2" ]]; then show_opts+=(-json) ; fi
   terraform show "${show_opts[@]}"
 }
 
 show_tfplan () {
-  switch_tfvars_or_tfplan "$1"
   local -a show_opts=()
-  if [[ -n "$2" ]]; then
-    show_opts+=(-json)
-  fi
-  show_opts+=($1)
+  switch_on "$1" || return "$?"
+
+  if [[ -n "$2" ]]; then show_opts+=(-json) ; fi
+  show_opts+=("$1")
   terraform show "${show_opts[@]}"
 }
 
 push_tfstate() {
-  local ws="$(basename "$1" ".tfstate")"
-  if [[ -f "envs/$ws.tfvars" ]] ; then
-    local -a push_opts=()
-    if [[ -n "$2" ]]; then
-      push_opts+=(-force)
-    fi
-    if [[ -n "$3" ]]; then
-      push_opts+=(-ignore-remote-version)
-    fi
-    push_opts+=($1)
-    switch_tfvars_or_tfplan "envs/$ws.tfvars"
-    terraform state push "${push_opts[@]}"
-  else
-    echo "corresponding $ws.tfvars file is missing." >&2
-    return 2
-  fi
+  local -a push_opts=()
+  switch_on "$1" || return "$?"
+
+  if [[ -n "$2" ]]; then push_opts+=(-force) ; fi
+  if [[ -n "$3" ]]; then push_opts+=(-ignore-remote-version) ; fi
+  push_opts+=("$1")
+  terraform state push "${push_opts[@]}"
 }

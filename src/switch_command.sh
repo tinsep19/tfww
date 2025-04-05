@@ -1,1 +1,1 @@
-switch_tfvars_or_tfplan "${args[file]}"
+switch_on "${args[file]}"
