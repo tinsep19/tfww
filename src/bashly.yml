@@ -1,8 +1,12 @@
 name: tfww
 help: terraform workspace wrapper
-version: 0.2.1
+version: 0.2.2
 
+dependencies : [ terraform ]
 commands:
+- name: update
+  help: update latest release
+  dependencies: [ jq ]
 - name: completions
   help: eval "\$(tfww completions)" in .bashrc
 
