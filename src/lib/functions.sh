@@ -66,7 +66,7 @@ plan_tfvars () {
 
   ws="$(basename "$1" ".tfvars")"
 
-  if ! switch_on "$1" ; then return 100 ; fi
+  switch_on "$1" || return "$?"
 
   plan_opts+=(-var-file="$1")
   plan_opts+=(-out="plans/$ws.tfplan")
@@ -74,14 +74,18 @@ plan_tfvars () {
   plan_opts+=(-detailed-exitcode)
   plan_opts+=(-input=false)
 
-  if [[ -n "$2" ]]; then plan_opts+=(-destroy) ; fi
-  if [[ -n "$3" ]]; then plan_opts+=(-refresh-only) ; fi
+  if [[ -n "$2" ]]; then
+    plan_opts+=(-destroy)
+  fi
+  if [[ -n "$3" ]]; then
+    plan_opts+=(-refresh-only)
+  fi
   terraform plan "${plan_opts[@]}"
 }
 
 apply_tfvars () {
   local -a apply_opts=()
-  if ! switch_on "$1" ; then return 100 ; fi
+  switch_on "$1" || return "$?"
 
   apply_opts+=(-var-file="$1")
   apply_opts+=(-compact-warnings)
@@ -92,13 +96,13 @@ apply_tfvars () {
 }
 
 apply_tfplan () {
-  if ! switch_on "$1" ; then return 100 ; fi
+  switch_on "$1" || return "$?"
   terraform apply "$1"
 }
 
 show_current_state () {
   local -a show_opts=()
-  if ! switch_on "$1" ; then return 100 ; fi
+  switch_on "$1" || return "$?"
   
   if [[ -n "$2" ]]; then show_opts+=(-json) ; fi
   terraform show "${show_opts[@]}"
@@ -106,7 +110,7 @@ show_current_state () {
 
 show_tfplan () {
   local -a show_opts=()
-  if ! switch_on "$1" ; then return 100 ; fi
+  switch_on "$1" || return "$?"
 
   if [[ -n "$2" ]]; then show_opts+=(-json) ; fi
   show_opts+=("$1")
@@ -115,7 +119,7 @@ show_tfplan () {
 
 push_tfstate() {
   local -a push_opts=()
-  if switch_on "$1" ; then exit 100 ; fi
+  switch_on "$1" || return "$?"
 
   if [[ -n "$2" ]]; then push_opts+=(-force) ; fi
   if [[ -n "$3" ]]; then push_opts+=(-ignore-remote-version) ; fi

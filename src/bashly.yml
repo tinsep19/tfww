@@ -1,6 +1,6 @@
 name: tfww
 help: terraform workspace wrapper
-version: 0.2.0
+version: 0.2.1
 
 commands:
 - name: completions
