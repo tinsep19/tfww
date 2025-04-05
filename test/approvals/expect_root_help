@@ -6,6 +6,7 @@ Usage:
   tfww --version | -v
 
 Commands:
+  update        update latest release
   completions   eval "$(tfww completions)" in .bashrc
   plan          switch terraform workspace and plan
   apply         switch terraform workspace and apply
