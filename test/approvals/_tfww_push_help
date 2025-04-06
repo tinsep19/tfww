@@ -1,0 +1,22 @@
+tfww push - tfstate manually push. for migrate non-workspace to workspace.
+
+Usage:
+  tfww push [FILE] [OPTIONS]
+  tfww push --help | -h
+
+Options:
+  --all
+    push all .tfstate files in migrates/*.tfstate
+
+  --force, -f
+
+
+  --ignore-remote-version, -r
+
+
+  --help, -h
+    Show this help
+
+Arguments:
+  FILE
+    migrates/${workspace}.tfstate

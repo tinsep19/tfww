@@ -31,16 +31,23 @@ commands:
 - name: apply
   help: switch terraform workspace and apply
   flags:
+  - long: --plan-all
+    help: apply all plans/*.tfplan
+    conflicts: [--all, --destroy, --refresh-only, --auto-approve]
+  - long: --auto-approve
+    short: -y
+    help: skip interactive approval of plan before applying
+    conflicts: [--plan-all]
   - long: --all
     help: apply all envs/*.tfvars
     conflicts: [--plan-all]
-  - long: --plan-all
-    help: apply all plans/*.tfplan
-    conflicts: [--all, --destroy]
   - long: --destroy
     short: -D
-    conflicts: [--plan-all]
+    conflicts: [--plan-all, --refresh-only]
     help: plan destroy. (tfvars only)
+  - long: --refresh-only
+    short: -R
+    conflicts: [--plan-all, --destroy]
   args:
   - name: file
     validate: tfvars_or_tfplan

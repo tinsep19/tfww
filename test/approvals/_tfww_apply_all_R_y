@@ -1,0 +1,51 @@
+[0m[32mSwitched to workspace "test-1".[0m
+[0m[1mlocal_file.file: Refreshing state... [id=49a04ba4469678c38e0f6a327f8702ea61d9e8a4][0m
+
+[0m[1m[32mNo changes.[0m[1m Your infrastructure still matches the configuration.[0m
+
+[0mTerraform has checked that the real remote objects still match the result of
+your most recent changes, and found no differences.
+[0m[1m[32m
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+[0m[0m[1m[32m
+Outputs:
+
+[0moutput-1 = "d0b4ba2311b3e84977dc4bb320fe72cd85426f5cf14b487a4c5352ae3ad8cb37"
+[0m[32mSwitched to workspace "test-2".[0m
+[33m╷[0m[0m
+[33m│[0m [0m[1m[33mWarning: [0m[0m[1mValue for undeclared variable[0m
+[33m│[0m [0m
+[33m│[0m [0m[0mThe root module does not declare a variable named "input-2" but a value was
+[33m│[0m [0mfound in file "envs/test-2.tfvars". If you meant to use this value, add a
+[33m│[0m [0m"variable" block to the configuration.
+[33m│[0m [0m
+[33m│[0m [0mTo silence these warnings, use TF_VAR_... environment variables to provide
+[33m│[0m [0mcertain "global" settings to all configurations in your organization. To
+[33m│[0m [0mreduce the verbosity of these warnings, use the -compact-warnings option.
+[33m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mNo value for required variable[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on main.tf line 1:
+[31m│[0m [0m   1: [4mvariable "input-1"[0m { type = string }[0m
+[31m│[0m [0m
+[31m│[0m [0mThe root module input variable "input-1" is not set, and has no default
+[31m│[0m [0mvalue. Use a -var or -var-file command line argument to provide a value for
+[31m│[0m [0mthis variable.
+[31m╵[0m[0m
+[0m[32mSwitched to workspace "test-3".[0m
+[0m[1mlocal_file.file: Refreshing state... [id=3323d8a8f66a0602cc59372e866dd8e116dccdb2][0m
+
+[0m[1m[32mNo changes.[0m[1m Your infrastructure still matches the configuration.[0m
+
+[0mTerraform has checked that the real remote objects still match the result of
+your most recent changes, and found no differences.
+[0m[1m[32m
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+[0m[0m[1m[32m
+Outputs:
+
+[0moutput-1 = "2a8c9f051e91be1d0f801980a9e87f8495582668d966b633bfde5d8a93d0e049"
+envs/test-3.tfvars : ok
+envs/test-1.tfvars : ok
+envs/test-2.tfvars : error

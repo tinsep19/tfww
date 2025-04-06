@@ -5,17 +5,25 @@ Usage:
   tfww apply --help | -h
 
 Options:
+  --plan-all
+    apply all plans/*.tfplan
+    Conflicts: --all, --destroy, --refresh-only, --auto-approve
+
+  --auto-approve, -y
+    skip interactive approval of plan before applying
+    Conflicts: --plan-all
+
   --all
     apply all envs/*.tfvars
     Conflicts: --plan-all
 
-  --plan-all
-    apply all plans/*.tfplan
-    Conflicts: --all, --destroy
-
   --destroy, -D
     plan destroy. (tfvars only)
-    Conflicts: --plan-all
+    Conflicts: --plan-all, --refresh-only
+
+  --refresh-only, -R
+
+    Conflicts: --plan-all, --destroy
 
   --help, -h
     Show this help
