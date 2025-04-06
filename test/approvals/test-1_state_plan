@@ -7,7 +7,7 @@ Terraform will perform the following actions:
 
 [1m  # local_file.file[0m will be created
 [0m  [32m+[0m[0m resource "local_file" "file" {
-      [32m+[0m[0m content              = "test-1"
+      [32m+[0m[0m content              = "first value"
       [32m+[0m[0m content_base64sha256 = (known after apply)
       [32m+[0m[0m content_base64sha512 = (known after apply)
       [32m+[0m[0m content_md5          = (known after apply)
@@ -23,4 +23,4 @@ Terraform will perform the following actions:
 [1mPlan:[0m 1 to add, 0 to change, 0 to destroy.
 [0m
 Changes to Outputs:
-  [32m+[0m[0m output-1 = "test-1"
+  [32m+[0m[0m output-1 = (known after apply)
