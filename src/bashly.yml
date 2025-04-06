@@ -36,11 +36,14 @@ commands:
     conflicts: [--plan-all]
   - long: --plan-all
     help: apply all plans/*.tfplan
-    conflicts: [--all, --destroy]
+    conflicts: [--all, --destroy, --refresh-only]
   - long: --destroy
     short: -D
-    conflicts: [--plan-all]
+    conflicts: [--plan-all, --refresh-only]
     help: plan destroy. (tfvars only)
+  - long: --refresh-only
+    short: -R
+    conflicts: [--plan-all, --destroy]
   args:
   - name: file
     validate: tfvars_or_tfplan

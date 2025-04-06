@@ -92,6 +92,7 @@ apply_tfvars () {
   apply_opts+=(-input=false)
 
   if [[ -n "$2" ]]; then apply_opts+=(-destroy) ; fi
+  if [[ -n "$3" ]]; then apply_opts+=(--refresh-only); fi
   terraform apply "${apply_opts[@]}"
 }
 
