@@ -43,7 +43,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    \'apply\'*)'
-  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_tfww_completions_filter "$(ls envs/*.tfvars plans/*.tfplan 2>/dev/null) --all --destroy --help --plan-all --refresh-only -D -R -h")" -- "$cur")'
+  echo $'      while read -r; do COMPREPLY+=("$REPLY"); done < <(compgen -W "$(_tfww_completions_filter "$(ls envs/*.tfvars plans/*.tfplan 2>/dev/null) --all --auto-approve --destroy --help --plan-all --refresh-only -D -R -h -y")" -- "$cur")'
   echo $'      ;;'
   echo $''
   echo $'    \'plan\'*)'

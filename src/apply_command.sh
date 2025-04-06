@@ -1,6 +1,7 @@
 local -a tfvars_opts=()
 tfvars_opts+=("${args[--destroy]}")
 tfvars_opts+=("${args[--refresh-only]}")
+tfvars_opts+=("${args[--auto-approve]}")
 
 if [[ -n "${args[--plan-all]}" ]] ; then
 
