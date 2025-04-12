@@ -20,3 +20,33 @@ Options:
 Arguments:
   FILE
     migrates/${workspace}.tfstate
+
+Examples:
+  ```
+  .
+  ├── 000001
+  │   └── workload
+  │       ├── main.tf
+  │       └── terraform.tfvars
+  ├── 000002
+  │   └── workload
+  │       ├── main.tf
+  │       └── terraform.tfvars
+  └── 000003
+      └── workload
+          ├── main.tf
+          └── terraform.tfvars
+  ```
+  
+  base_dir="path/to/new_root"
+  mkdir -p $base_dir/{envs,plans,migrates}
+  for f in */workload/terraform.tfvars ; do
+    from_dir="$(dirname "$f")"
+    ws="$(dirname "$from_dir")"
+    terraform -chdir=$from_dir apply -refresh-only -auto-approval
+    terraform -chdir=$from_dir state pull > $base_dir/migrates/$ws.tfstate
+    cp  $base_dir/envs/$ws.tfvars
+    # and/or edit $ws.tfvars
+  done
+  tfww push --all -f
+  tfww plan --all # Check no chages.

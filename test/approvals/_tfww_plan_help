@@ -20,3 +20,16 @@ Options:
 Arguments:
   FILE
     envs/$workspace.tfvars
+
+Examples:
+  Plan
+  - tfww plan envs/$workspace.tfvars
+  - tfww plan --all
+  
+  Plan destroy (--destroy/-D)
+  - tfww plan --destroy envs/$workspace.tfvars
+  - tfww plan --all -D
+  
+  Plan refresh (--refresh-only/-R)
+  - tfww plan -R envs/$workspace.tfvars
+  - tfww plan --all -R

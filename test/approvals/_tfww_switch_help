@@ -11,3 +11,7 @@ Options:
 Arguments:
   FILE
     envs/$workspace.tfvars or plans/$workspace.tfplan
+
+Examples:
+  tfww switch envs/$workspace.tfvars
+  tfww switch plans/$workspace.tfplan

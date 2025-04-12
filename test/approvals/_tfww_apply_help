@@ -31,3 +31,23 @@ Options:
 Arguments:
   FILE
     envs/$workspace.tfvars or plans/$workspace.tfplan
+
+Examples:
+  Apply (tfplan)
+  - tfww apply plans/$workspace.tfplan
+  - tfww apply --plan-all
+  
+  Apply
+  - tfww apply envs/$workspace.tfvars
+  - tfww apply --all
+  - tfww apply --all -y
+  
+  Destroy(--destroy/-D)
+  - tfww apply --destroy envs/$workspace.tfvars
+  - tfww apply --all -D
+  - tfww apply --all -D -y
+  
+  Refresh(--refresh-only/-R)
+  - tfww apply --refresh-only envs/$workspace.tfvars
+  - tfww apply --all -R
+  - tfww apply --all -R -y
