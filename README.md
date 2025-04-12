@@ -6,9 +6,11 @@
 
 ```
 + (project-root)
-  + envs/${workspace}.tfvars
   + main.tf
   + some.auto.tfvars
+  + envs/${workspace}.tfvars
+  + plans/${workspace}.tfplan
+  + migrates/${workspace}.tfstate
 ```
 
 When using Terraform's workspace feature and expressing all environment differences in `tfvars` files, you should create a `${workspace}.tfvars` file and place it in the `envs` directory.
@@ -28,11 +30,16 @@ When using Terraform's workspace feature and expressing all environment differen
    terraform apply -var-file=envs/${workspace}.tfvars
    ```
 
-2. Other Terraform commands can also be executed via `tfww`:
+2. Other Terraform commands can also be executed
+   via `tfww` with seamless workspace switching:
 
    ```sh
-   tfww plan envs/${workspace}.tfvars
-   tfww destroy envs/${workspace}.tfvars
+   # For all envs/${workspace}.tfvars, switch and plan to output plans/${workspace}.tfplan 
+   tfww plan --all
+   # switch workspace and apply tfplan
+   tfww apply plans/${workspace}.tfplan
+   # push tfstate from other project 
+   tfww push migrates/${workspace}.tfstate -f
    ```
 
 ## Installation

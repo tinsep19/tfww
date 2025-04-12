@@ -6,9 +6,11 @@
 
 ```
 + (project-root)
-  + envs/${workspace}.tfvars
-  + main.tf
+  + main.tf (and/or backend.tf,... etc)
   + some.auto.tfvars
+  + envs/${workspace}.tfvars
+  + plans/${workspace}.tfplan
+  + migrates/${workspace}.tfstate
 ```
 
 Terraform の workspace 機能を使用していて、その環境差分が `tfvars` ファイルですべて表現できる場合に、`${workspace}.tfvars` ファイルを作成し、`envs` ディレクトリに配置します。
@@ -28,11 +30,16 @@ Terraform の workspace 機能を使用していて、その環境差分が `tfv
    terraform apply -var-file=envs/${workspace}.tfvars
    ```
 
-2. その他の Terraform コマンドも `tfww` 経由で実行できます。
+2. その他の Terraform コマンドも `tfww` 経由でワークスペースを切り替えながら
+   実行できます。
 
    ```sh
-   tfww plan envs/${workspace}.tfvars
-   tfww destroy envs/${workspace}.tfvars
+   # For all envs/${workspace}.tfvars, switch and plan to output plans/${workspace}.tfplan 
+   tfww plan --all
+   # switch workspace and apply tfplan
+   tfww apply plans/${workspace}.tfplan
+   # push tfstate from other project 
+   tfww push migrates/${workspace}.tfstate -f
    ```
 
 ## インストール
