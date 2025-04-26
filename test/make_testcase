@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+make_testcase () {
+ local src="${BASH_SOURCE[0]}"
+ local testcase_dir="$(cd -- $(dirname -- "$src") && pwd -P)/testcase-$1"
+ 
+ mkdir -p "$testcase_dir/envs"
+ touch "$testcase_dir/main.tf"
+ cat <<EOF > "$testcase_dir/approve"
+#!/usr/bin/env bash
+
+cd "\$(dirname -- "\${BASH_SOURCE[0]}")" || exit
+source ../approvals.bash
+tfww="../../tfww"
+
+# Write your test code.
+describe "$1"
+terraform init
+pass "no tests for \$tfww" 
+
+EOF
+ chmod +x "$testcase_dir/approve"
+ echo "create $testcase_dir"
+}
+make_testcase "$1"

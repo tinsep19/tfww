@@ -1,5 +1,0 @@
-[0m[32m[1mCreated and switched to workspace "test-1"![0m[32m
-
-You're now on a new, empty workspace. Workspaces isolate their state,
-so if you run "terraform plan" Terraform will not see any existing state
-for this configuration.[0m
