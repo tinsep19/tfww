@@ -7,11 +7,7 @@ tfww="../../tfww"
 
 describe "testcase-003"
 
-# Setup
-it "setup"
-mkdir -p plans envs
-terraform init
-terraform workspace select default
+setup >/dev/null && pass "setup"
 
 echo "input-1=\"value-1\"" > envs/test-1.tfvars
 allow_diff "id *=.*"
@@ -30,6 +26,4 @@ approve "$tfww show envs/test-1.tfvars"
 allow_diff "id *=.*"
 approve "$tfww apply plans/test-1.tfplan"
 
-# Clean
-it "cleanup"
-rm -rf envs plans .terraform terraform.tfstate.d
+teardown >/dev/null && pass "teardown"

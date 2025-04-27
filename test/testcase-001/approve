@@ -9,15 +9,10 @@ tfww="../../tfww"
 describe "testcase-001"
 
 
-# Setup
-it "setup"
-mkdir -p plans envs
+setup >/dev/null && pass "setup"
+
 touch envs/test-{1,3}.tfvars
 touch plans/test-{2,3}.tfplan
-terraform init
-terraform workspace select default
-
-describe "switch command"
 
 describe "FILE must should be exist"
 approve "$tfww switch envs/nothing.tfvars"
@@ -36,6 +31,4 @@ workspace_shoud_be "test-1"
 approve "$tfww switch plans/test-3.tfplan"
 workspace_shoud_be "test-3"
 
-# Clean
-it "cleanup"
-rm -rf envs plans terrform.tfstate.d .terraform
+teardown >/dev/null && pass "teardown"

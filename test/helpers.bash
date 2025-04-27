@@ -3,11 +3,14 @@ workspace_shoud_be () {
   local actual="$(terraform workspace show)"
   [[ "$actual" == "$expect" ]] || fail "expect $expect but $actual"
 }
+setup () {
+  mkdir -p plans envs
+  terraform init
+  terraform workspace select default
+}
 
-cleanup () {
-  rm -rf .terraform terraform.tfstate.d
-  rm -f .terraform.lock.hcl
-  rm -rf envs plans migrates out
+teardown () {
+  rm -rf envs plans .terraform terraform.tfstate.d
 }
 
 install_terraform () {
