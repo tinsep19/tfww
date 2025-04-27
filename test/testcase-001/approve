@@ -8,6 +8,10 @@ tfww="../../tfww"
 # Write your test code.
 describe "testcase-001"
 
+# Clean
+rm -rf envs plans terrform.tfstate.d .terraform
+
+# Setup
 mkdir -p plans envs
 touch envs/test-{1,3}.tfvars
 touch plans/test-{2,3}.tfplan
