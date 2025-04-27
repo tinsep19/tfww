@@ -28,20 +28,6 @@ for __testcase in testcase-*/approve ; do
   fi
 done
    
-# describe "show command"
-#   describe "FILE should be following patterns, below"  
-#     describe "plans/*.tfplan shows plan"
-#       approve "$cli show plans/test-1.tfplan" "test-1_state_plan"
-
-#     describe "envs/*.tfvars shows current state"
-#       approve "$cli show envs/test-1.tfvars" "test-1_state_before"
-
-# describe "apply command"
-#   context "target file is tfplan"
-#     approve "$cli apply plans/test-1.tfplan" "apply_test-1"
-#     expect_exit_code 0
-#     [[ -f out/test-1/content.txt ]] || fail "Expect success apply"   
-
 # describe "plan --all with various situations."
 #     # setup tfvars
 #     echo "input-1 = \"changes\""   > envs/test-1.tfvars
