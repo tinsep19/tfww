@@ -11,13 +11,24 @@ make_testcase () {
 
 cd "\$(dirname -- "\${BASH_SOURCE[0]}")" || exit
 source ../approvals.bash
+source ../helpers.bash
 tfww="../../tfww"
 
-# Write your test code.
-describe "$1"
+describe "testcase-$1"
+
+# Setup
+it "setup"
+mkdir -p plans envs
+# ... add envs/*.tfvars
 terraform init
+terraform workspace select default
+
+# Write your test code.
 pass "no tests for \$tfww" 
 
+# Clean
+it "cleanup"
+rm -rf envs plans .terraform terraform.tfstate.d
 EOF
  chmod +x "$testcase_dir/approve"
  echo "create $testcase_dir"
