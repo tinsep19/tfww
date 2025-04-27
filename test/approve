@@ -28,13 +28,6 @@ for __testcase in testcase-*/approve ; do
   fi
 done
    
-# describe "plan command"
-#   describe "FILE shoud be envs/*.tfvars"
-#     echo "input-1 = \"first value\""   > envs/test-1.tfvars
-#     terraform init
-#     approve "$cli plan envs/test-1.tfvars"
-#     [[ -f plans/test-1.tfplan ]] || fail "plan is not exist"
-  
 # describe "show command"
 #   describe "FILE should be following patterns, below"  
 #     describe "plans/*.tfplan shows plan"
