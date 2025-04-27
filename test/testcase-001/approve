@@ -8,10 +8,9 @@ tfww="../../tfww"
 # Write your test code.
 describe "testcase-001"
 
-# Clean
-rm -rf envs plans terrform.tfstate.d .terraform
 
 # Setup
+it "setup"
 mkdir -p plans envs
 touch envs/test-{1,3}.tfvars
 touch plans/test-{2,3}.tfplan
@@ -37,3 +36,6 @@ workspace_shoud_be "test-1"
 approve "$tfww switch plans/test-3.tfplan"
 workspace_shoud_be "test-3"
 
+# Clean
+it "cleanup"
+rm -rf envs plans terrform.tfstate.d .terraform

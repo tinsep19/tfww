@@ -27,29 +27,7 @@ for __testcase in testcase-*/approve ; do
     "$__testcase"
   fi
 done
-
-  
-# describe "switch command"
-#   it "FILE must should be exist"
-#     context "FILE is not exist"
-#       approve "$cli switch envs/nothing.tfvars" "expect_not_exist_msg"
-#       expect_exit_code 1
-
-#   it "FILE should be following patterns, below"  
-#     describe "envs/*.tfvars"
-#       touch envs/test-1.tfvars
-#       approve "$cli switch envs/test-1.tfvars" "expect_switch_test-1"
-#       workspace_shoud_be "test-1"
-
-#     describe "plans/*.tfplan, corresponding tfvars also must be exist"
-#       touch plans/test-2.tfplan
-#       approve "$cli switch plans/test-2.tfplan" "expect_unmatch_switch_test-2"
-#       workspace_shoud_be "test-1"
-
-#       touch envs/test-2.tfvars
-#       approve "$cli switch plans/test-2.tfplan" "expect_match_switch_test-2"
-#       workspace_shoud_be "test-2"
-      
+   
 # describe "plan command"
 #   describe "FILE shoud be envs/*.tfvars"
 #     echo "input-1 = \"first value\""   > envs/test-1.tfvars
