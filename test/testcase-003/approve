@@ -7,11 +7,14 @@ tfww="../../tfww"
 
 describe "testcase-003"
 
-setup >/dev/null && pass "setup"
+setup
 
 echo "input-1=\"value-1\"" > envs/test-1.tfvars
 allow_diff "id *=.*"
 approve "$tfww apply envs/test-1.tfvars -y"
+
+allow_diff "id *=.*"
+approve "$tfww show envs/test-1.tfvars"
 
 echo "input-1=\"value-2\"" > envs/test-1.tfvars
 allow_diff "id *=.*"
@@ -21,9 +24,6 @@ allow_diff "id *=.*"
 approve "$tfww show plans/test-1.tfplan"
 
 allow_diff "id *=.*"
-approve "$tfww show envs/test-1.tfvars"
-
-allow_diff "id *=.*"
 approve "$tfww apply plans/test-1.tfplan"
 
-teardown >/dev/null && pass "teardown"
+teardown

@@ -1,16 +1,23 @@
 workspace_shoud_be () {
   local expect="$1"
   local actual="$(terraform workspace show)"
-  [[ "$actual" == "$expect" ]] || fail "expect $expect but $actual"
+  if [[ "$actual" == "$expect" ]] ; then
+    pass "workspace is $actual"
+  else
+    fail "expect $expect but $actual"
+  fi
 }
+
 setup () {
+  describe "setup"
   mkdir -p plans envs
-  terraform init
-  terraform workspace select default
+  terraform init >/dev/null
+  terraform workspace select default >/dev/null
 }
 
 teardown () {
-  rm -rf envs plans .terraform terraform.tfstate.d
+  describe "teardown"
+  rm -rf envs plans .terraform terraform.tfstate.d >/dev/null
 }
 
 install_terraform () {

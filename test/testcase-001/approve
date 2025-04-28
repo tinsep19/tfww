@@ -9,7 +9,7 @@ tfww="../../tfww"
 describe "testcase-001"
 
 
-setup >/dev/null && pass "setup"
+setup
 
 touch envs/test-{1,3}.tfvars
 touch plans/test-{2,3}.tfplan
@@ -31,4 +31,4 @@ workspace_shoud_be "test-1"
 approve "$tfww switch plans/test-3.tfplan"
 workspace_shoud_be "test-3"
 
-teardown >/dev/null && pass "teardown"
+teardown
