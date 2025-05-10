@@ -1,4 +1,4 @@
-tfww apply - switch terraform workspace and apply
+tfww apply - apply with switching terraform workspace
 
 Usage:
   tfww apply [FILE] [OPTIONS]

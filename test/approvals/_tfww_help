@@ -8,11 +8,11 @@ Usage:
 Commands:
   update        update latest release
   completions   eval "$(tfww completions)" in .bashrc
-  plan          switch terraform workspace and plan
-  apply         switch terraform workspace and apply
+  plan          plan with switching terraform workspace
+  apply         apply with switching terraform workspace
   switch        switch or create terraform workspace
-  show          swtich terraform workspace and show state or plan
-  push          tfstate manually push. for migrate non-workspace to workspace.
+  show          show state or plan with swtiching terraform workspace
+  push          manually push tfstate for migrate from other terraform project.
 
 Options:
   --help, -h
