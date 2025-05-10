@@ -1,6 +1,6 @@
 name: tfww
 help: terraform workspace wrapper
-version: 0.3.0
+version: 0.3.1
 
 dependencies : [ terraform ]
 commands:
@@ -11,7 +11,7 @@ commands:
   help: eval "\$(tfww completions)" in .bashrc
 
 - name: plan
-  help: switch terraform workspace and plan
+  help: plan with switching terraform workspace
   flags:
   - long: --all
     help: plan all envs/*.tfvars
@@ -41,7 +41,7 @@ commands:
     - tfww plan --all -R
 
 - name: apply
-  help: switch terraform workspace and apply
+  help: apply with switching terraform workspace
   flags:
   - long: --plan-all
     help: apply all plans/*.tfplan
@@ -100,7 +100,7 @@ commands:
   - tfww switch plans/\$workspace.tfplan
 
 - name: show
-  help: swtich terraform workspace and show state or plan
+  help: show state or plan with swtiching terraform workspace
   flags:
   - long: --json
     short: -j
@@ -117,7 +117,7 @@ commands:
   - tfww show envs/\$workspace.tfvars
 
 - name: push
-  help: tfstate manually push. for migrate non-workspace to workspace.
+  help: manually push tfstate for migrate from other terraform project.
   flags:
   - long: --all
     help: push all .tfstate files in migrates/*.tfstate

@@ -1,4 +1,4 @@
-tfww push - tfstate manually push. for migrate non-workspace to workspace.
+tfww push - manually push tfstate for migrate from other terraform project.
 
 Usage:
   tfww push [FILE] [OPTIONS]

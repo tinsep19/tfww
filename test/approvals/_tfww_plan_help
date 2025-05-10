@@ -1,4 +1,4 @@
-tfww plan - switch terraform workspace and plan
+tfww plan - plan with switching terraform workspace
 
 Usage:
   tfww plan [FILE] [OPTIONS]
