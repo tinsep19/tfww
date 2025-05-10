@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+cd "$(dirname -- "${BASH_SOURCE[0]}")" || exit
+source ../approvals.bash
+source ../helpers.bash
+tfww="../../tfww"
+
+describe "testcase-004"
+
+# Setup
+it "setup"
+mkdir -p plans envs
+# ... add envs/*.tfvars
+terraform init
+terraform workspace select default
+
+# Write your test code.
+describe "plan --all and apply --plan-all"
+echo 'input-1 = "changes"'   > envs/test-1.tfvars
+echo 'input-2 = "incorrect"' > envs/test-2.tfvars
+echo 'input-1 = "test-3"'    > envs/test-3.tfvars
+
+allow_diff "id *=.*"
+approve "$tfww plan --all"
+allow_diff "id *=.*"
+approve "$tfww apply --plan-all"
+
+describe "plan --all -D and apply --plan-all"
+allow_diff "id *=.*"
+approve "$tfww plan --all -D"
+allow_diff "id *=.*"
+approve "$tfww apply --plan-all" "_tfww_apply_destroy_plan"
+
+describe "apply --all -y and apply --all -D -y"
+allow_diff "id *=.*"
+approve "$tfww apply --all -y"
+allow_diff "id *=.*"
+approve "$tfww apply --all -D -y"
+
+# Clean
+it "cleanup"
+rm -rf envs plans .terraform terraform.tfstate.d

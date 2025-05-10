@@ -1,28 +1,26 @@
-[0m[1mlocal_file.file: Refreshing state... [id=262e054bed8810f28cf73beb0fedeee88ef936f3][0m
+[0m[32m[1mCreated and switched to workspace "test-1"![0m[32m
+
+You're now on a new, empty workspace. Workspaces isolate their state,
+so if you run "terraform plan" Terraform will not see any existing state
+for this configuration.[0m
 
 Terraform used the selected providers to generate the following execution
 plan. Resource actions are indicated with the following symbols:
-[31m-[0m/[32m+[0m destroy and then create replacement[0m
+  [32m+[0m create[0m
 
 Terraform will perform the following actions:
 
-[1m  # local_file.file[0m must be [1m[31mreplaced[0m
-[0m[31m-[0m/[32m+[0m[0m resource "local_file" "file" {
-      [33m~[0m[0m content              = "first value" [33m->[0m[0m "changes" [31m# forces replacement[0m[0m
-      [33m~[0m[0m content_base64sha256 = "zAxB4qF1ffgJ18nqxiyMv7NAnCuXSxgQiB2GV+EoTWQ=" -> (known after apply)
-      [33m~[0m[0m content_base64sha512 = "Z2C8ryqrXxQbxkizBnN08YuDoWgWQ/xXCjdaNc0F3RKSYORy2AgYtakVO38BEMVk6PxMIOPW7o+u/Qw+UE3o7A==" -> (known after apply)
-      [33m~[0m[0m content_md5          = "ddc0d03aa47b480cda54be54c4fa6cbc" -> (known after apply)
-      [33m~[0m[0m content_sha1         = "262e054bed8810f28cf73beb0fedeee88ef936f3" -> (known after apply)
-      [33m~[0m[0m content_sha256       = "cc0c41e2a1757df809d7c9eac62c8cbfb3409c2b974b1810881d8657e1284d64" -> (known after apply)
-      [33m~[0m[0m content_sha512       = "6760bcaf2aab5f141bc648b3067374f18b83a1681643fc570a375a35cd05dd129260e472d80818b5a9153b7f0110c564e8fc4c20e3d6ee8faefd0c3e504de8ec" -> (known after apply)
-      [33m~[0m[0m id                   = "262e054bed8810f28cf73beb0fedeee88ef936f3" -> (known after apply)
-        [90m# (3 unchanged attributes hidden)[0m[0m
+[1m  # terraform_data.resource-1[0m will be created
+[0m  [32m+[0m[0m resource "terraform_data" "resource-1" {
+      [32m+[0m[0m *
+      [32m+[0m[0m input  = "changes"
+      [32m+[0m[0m output = (known after apply)
     }
 
-[1mPlan:[0m 1 to add, 0 to change, 1 to destroy.
+[1mPlan:[0m 1 to add, 0 to change, 0 to destroy.
 [0m
 Changes to Outputs:
-  [33m~[0m[0m output-1 = "cc0c41e2a1757df809d7c9eac62c8cbfb3409c2b974b1810881d8657e1284d64" -> (known after apply)
+  [32m+[0m[0m output-1 = (known after apply)
 [90m
 ─────────────────────────────────────────────────────────────────────────────[0m
 
@@ -30,7 +28,11 @@ Saved the plan to: plans/test-1.tfplan
 
 To perform exactly these actions, run the following command to apply:
     terraform apply "plans/test-1.tfplan"
-[0m[32mSwitched to workspace "test-2".[0m
+[0m[32m[1mCreated and switched to workspace "test-2"![0m[32m
+
+You're now on a new, empty workspace. Workspaces isolate their state,
+so if you run "terraform plan" Terraform will not see any existing state
+for this configuration.[0m
 [33m╷[0m[0m
 [33m│[0m [0m[1m[33mWarning: [0m[0m[1mValue for undeclared variable[0m
 [33m│[0m [0m
@@ -64,19 +66,11 @@ plan. Resource actions are indicated with the following symbols:
 
 Terraform will perform the following actions:
 
-[1m  # local_file.file[0m will be created
-[0m  [32m+[0m[0m resource "local_file" "file" {
-      [32m+[0m[0m content              = "test-3"
-      [32m+[0m[0m content_base64sha256 = (known after apply)
-      [32m+[0m[0m content_base64sha512 = (known after apply)
-      [32m+[0m[0m content_md5          = (known after apply)
-      [32m+[0m[0m content_sha1         = (known after apply)
-      [32m+[0m[0m content_sha256       = (known after apply)
-      [32m+[0m[0m content_sha512       = (known after apply)
-      [32m+[0m[0m directory_permission = "0777"
-      [32m+[0m[0m file_permission      = "0777"
-      [32m+[0m[0m filename             = "out/test-3/content.txt"
-      [32m+[0m[0m id                   = (known after apply)
+[1m  # terraform_data.resource-1[0m will be created
+[0m  [32m+[0m[0m resource "terraform_data" "resource-1" {
+      [32m+[0m[0m *
+      [32m+[0m[0m input  = "test-3"
+      [32m+[0m[0m output = (known after apply)
     }
 
 [1mPlan:[0m 1 to add, 0 to change, 0 to destroy.

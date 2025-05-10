@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+cd "$(dirname -- "${BASH_SOURCE[0]}")" || exit
+source ../approvals.bash
+source ../helpers.bash
+tfww="../../tfww"
+
+# Write your test code.
+describe "testcase-002"
+
+setup
+
+echo "input-1 = \"first value\""   > envs/test-1.tfvars
+
+describe "plan command"
+describe "FILE shoud be envs/*.tfvars"
+approve "$tfww plan envs/test-1.tfvars"
+[[ -f plans/test-1.tfplan ]] || fail "plan is not exist"
+
+teardown

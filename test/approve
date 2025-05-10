@@ -1,88 +1,29 @@
 #!/usr/bin/env bash
 # Run this from the root directory
+cat <<'DESC'
+# For testing.
 
-cd ./test || exit
+- Run this from the root directory
+- You can create testcase using test/make_testcase
+  - `test/make_testcase 001`
+  - `test/testcase-001/approve`
+DESC
+
+
+cd "$(dirname -- "${BASH_SOURCE[0]}")" || exit
 source approvals.bash
-source helpers.bash
 
-# Update me
-cli=../tfww
-
-# Tests (context, describe and indentation are optional)
-
-# Clean up.
-it "setup"
-  cleanup
-  install_terraform
-  mkdir envs plans
-  approve "terraform -version" "supprt_terraform_version"
+tfww=../tfww
 
 describe "command help"
-  approve "$cli --help" "expect_root_help"
-
+  approve "$tfww --help"
   for subcommand in "switch" "plan" "apply" "push" ; do
     describe "$subcommand command"
-      approve "$cli $subcommand --help"
+      approve "$tfww $subcommand --help"
   done
-  
-describe "switch command"
-  it "FILE must should be exist"
-    context "FILE is not exist"
-      approve "$cli switch envs/nothing.tfvars" "expect_not_exist_msg"
-      expect_exit_code 1
 
-  it "FILE should be following patterns, below"  
-    describe "envs/*.tfvars"
-      touch envs/test-1.tfvars
-      approve "$cli switch envs/test-1.tfvars" "expect_switch_test-1"
-      workspace_shoud_be "test-1"
-
-    describe "plans/*.tfplan, corresponding tfvars also must be exist"
-      touch plans/test-2.tfplan
-      approve "$cli switch plans/test-2.tfplan" "expect_unmatch_switch_test-2"
-      workspace_shoud_be "test-1"
-
-      touch envs/test-2.tfvars
-      approve "$cli switch plans/test-2.tfplan" "expect_match_switch_test-2"
-      workspace_shoud_be "test-2"
-      
-describe "plan command"
-  describe "FILE shoud be envs/*.tfvars"
-    echo "input-1 = \"first value\""   > envs/test-1.tfvars
-    terraform init
-    approve "$cli plan envs/test-1.tfvars"
-    [[ -f plans/test-1.tfplan ]] || fail "plan is not exist"
-  
-describe "show command"
-  describe "FILE should be following patterns, below"  
-    describe "plans/*.tfplan shows plan"
-      approve "$cli show plans/test-1.tfplan" "test-1_state_plan"
-
-    describe "envs/*.tfvars shows current state"
-      approve "$cli show envs/test-1.tfvars" "test-1_state_before"
-
-describe "apply command"
-  context "target file is tfplan"
-    approve "$cli apply plans/test-1.tfplan" "apply_test-1"
-    expect_exit_code 0
-    [[ -f out/test-1/content.txt ]] || fail "Expect success apply"   
-
-describe "plan --all with various situations."
-    # setup tfvars
-    echo "input-1 = \"changes\""   > envs/test-1.tfvars
-    echo "input-2 = \"incorrect\"" > envs/test-2.tfvars
-    echo "input-1 = \"test-3\""    > envs/test-3.tfvars
-
-    it "test-1 : ok, test-2 : error, test-3: ok (no changes)"
-    approve "$cli plan --all" "plan_all_with_various_situations"
-
-describe "apply --all"
-  approve "$cli apply --all -y"
-
-describe "--refresh-only, -R"
-  approve "$cli apply --all -R -y"
-
-describe "--destroy, -D"
-  approve "$cli apply --all -D -y"
-  
-    
+for __testcase in testcase-*/approve ; do
+  if [[ -x "$__testcase" ]]; then
+    "$__testcase"
+  fi
+done

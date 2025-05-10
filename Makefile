@@ -13,7 +13,7 @@ all: clean build test
 
 .PHONY: clean
 clean:
-	rm -f $(TARGET)
+	git clean -x -f
 
 .PHONY: test
 test: $(TEST) $(TARGET)

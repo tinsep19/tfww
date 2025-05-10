@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+make_testcase () {
+ local src="${BASH_SOURCE[0]}"
+ local testcase_dir="$(cd -- $(dirname -- "$src") && pwd -P)/testcase-$1"
+ 
+ mkdir -p "$testcase_dir/envs"
+ touch "$testcase_dir/main.tf"
+ cat <<EOF > "$testcase_dir/approve"
+#!/usr/bin/env bash
+
+cd "\$(dirname -- "\${BASH_SOURCE[0]}")" || exit
+source ../approvals.bash
+source ../helpers.bash
+tfww="../../tfww"
+
+describe "testcase-$1"
+
+# Setup
+it "setup"
+mkdir -p plans envs
+# ... add envs/*.tfvars
+terraform init
+terraform workspace select default
+
+# Write your test code.
+pass "no tests for \$tfww" 
+
+# Clean
+it "cleanup"
+rm -rf envs plans .terraform terraform.tfstate.d
+EOF
+ chmod +x "$testcase_dir/approve"
+ echo "create $testcase_dir"
+}
+make_testcase "$1"

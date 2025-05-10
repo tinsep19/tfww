@@ -1,0 +1,18 @@
+[0m[32m[1mCreated and switched to workspace "test-1"![0m[32m
+
+You're now on a new, empty workspace. Workspaces isolate their state,
+so if you run "terraform plan" Terraform will not see any existing state
+for this configuration.[0m
+
+Changes to Outputs:
+  [32m+[0m[0m output-1 = "input-1:first value"
+
+You can apply this plan to save these new output values to the Terraform
+state, without changing any real infrastructure.
+[90m
+─────────────────────────────────────────────────────────────────────────────[0m
+
+Saved the plan to: plans/test-1.tfplan
+
+To perform exactly these actions, run the following command to apply:
+    terraform apply "plans/test-1.tfplan"

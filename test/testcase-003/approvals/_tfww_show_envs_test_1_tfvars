@@ -1,0 +1,11 @@
+# terraform_data.resource-1:
+resource "terraform_data" "resource-1" {
+    *
+    input  = "value-1"
+    output = "value-1"
+}
+
+
+Outputs:
+
+output-1 = "value-1"

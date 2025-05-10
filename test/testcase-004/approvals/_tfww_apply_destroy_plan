@@ -1,0 +1,12 @@
+[0m[32mSwitched to workspace "test-1".[0m
+[0m[1mterraform_data.resource-1: Destroying... [*
+[0m[1mterraform_data.resource-1: Destruction complete after 0s[0m
+[0m[1m[32m
+Apply complete! Resources: 0 added, 0 changed, 1 destroyed.
+[0m[0m[32mSwitched to workspace "test-3".[0m
+[0m[1mterraform_data.resource-1: Destroying... [*
+[0m[1mterraform_data.resource-1: Destruction complete after 0s[0m
+[0m[1m[32m
+Apply complete! Resources: 0 added, 0 changed, 1 destroyed.
+[0mplans/test-1.tfplan : ok
+plans/test-3.tfplan : ok
