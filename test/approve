@@ -27,23 +27,3 @@ for __testcase in testcase-*/approve ; do
     "$__testcase"
   fi
 done
-   
-# describe "plan --all with various situations."
-#     # setup tfvars
-#     echo "input-1 = \"changes\""   > envs/test-1.tfvars
-#     echo "input-2 = \"incorrect\"" > envs/test-2.tfvars
-#     echo "input-1 = \"test-3\""    > envs/test-3.tfvars
-
-#     it "test-1 : ok, test-2 : error, test-3: ok (no changes)"
-#     approve "$cli plan --all" "plan_all_with_various_situations"
-
-# describe "apply --all"
-#   approve "$cli apply --all -y"
-
-# describe "--refresh-only, -R"
-#   approve "$cli apply --all -R -y"
-
-# describe "--destroy, -D"
-#   approve "$cli apply --all -D -y"
-  
-    
